@@ -3,46 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meine erste Website</title>
+    <title>Adventskalender 2026</title>
     <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            text-align: center; 
-            background: linear-gradient(135deg, #74ebe1 0%, #d4a5ec 100%); 
-            color: #333;
+        /* Hintergrund und allgemeine Schrift */
+        body {
+            background-color: #722F37; /* Bordeauxrot */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15)); /* Leicht ausgeblichener Effekt */
+            color: #ffffff;
+            font-family: 'Times New Roman', Times, serif;
             margin: 0;
-            padding: 100px 20px;
-            min-height: 100vh;
+            padding: 40px 20px;
+            text-align: center;
         }
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            display: inline-block;
-            max-width: 500px;
+
+        /* Überschriften */
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 5px;
+            font-weight: normal;
         }
-        h1 { color: #4a0e4e; }
-        p { font-size: 1.1em; color: #555; }
-        .button {
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-top: 0;
+            margin-bottom: 50px;
+            opacity: 0.9;
+        }
+
+        /* Container für die Türchen */
+        .calendar-container {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px; /* Abstand zwischen den Türchen */
+        }
+
+        /* Einzelnes Türchen */
+        .door {
+            background: rgba(255, 255, 255, 0.1); /* Leicht transparenter Kasten */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .door h2 {
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 5px;
+        }
+
+        .door p {
+            font-size: 1.1rem;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        /* Musik-Player */
+        audio {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        /* PDF-Download-Button */
+        .pdf-link {
             display: inline-block;
-            background: #4a0e4e;
-            color: white;
-            padding: 10px 20px;
+            color: #722F37;
+            background-color: #ffffff;
             text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-            transition: 0.3s;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-family: sans-serif; /* Macht den Button moderner lesbar */
+            font-size: 0.9rem;
+            transition: background 0.2s;
         }
-        .button:hover { background: #6a1b75; }
+
+        .pdf-link:hover {
+            background-color: #e0e0e0;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Hallo Welt! 🚀</h1>
-        <p>Ich habe diese Website gerade von Grund auf selbst erstellt.</p>
-        <p>Gehostet wird das Ganze komplett kostenlos über GitHub Pages.</p>
-        <a href="#" class="button">Mehr erfahren</a>
+
+    <!-- Kopfzeile -->
+    <h1>Adventskalender 2026</h1>
+    <div class="subtitle">von Josie & Finn</div>
+
+    <!-- Hier werden die Türchen nacheinander hochgeladen -->
+    <div class="calendar-container">
+
+        <!-- TÜRCHEN 1 -->
+        <div class="door">
+            <h2>1. Dezember</h2>
+            <p>Hallo und herzlich willkommen zu unserem musikalischen Adventskalender! Zum Start haben wir für euch einen echten Klassiker aufgenommen. Viel Spaß beim Mitsingen!</p>
+            
+            <!-- Der Musikplayer direkt auf der Seite -->
+            <audio controls src="musik/tag1.mp3">
+                Ihr Browser unterstützt das Audio-Element nicht.
+            </audio>
+            
+            <br>
+            <!-- Der Link zum Notenblatt (PDF) -->
+            <a href="noten/tag1.pdf" target="_blank" class="pdf-link">📄 Liedblatt öffnen (PDF)</a>
+        </div>
+
+        <!-- TÜRCHEN 2 -->
+        <div class="door">
+            <h2>2. Dezember</h2>
+            <p>Hinter dem heutigen Türchen versteckt sich ein ruhiges, besinnliches Stück für die kalten Winterabende.</p>
+            
+            <audio controls src="musik/tag2.mp3"></audio>
+            <br>
+            <a href="noten/tag2.pdf" target="_blank" class="pdf-link">📄 Liedblatt öffnen (PDF)</a>
+        </div>
+
+        <!-- TÜRCHEN 3 (Ein weiteres Beispiel) -->
+        <div class="door">
+            <h2>3. Dezember</h2>
+            <p>Heute wird es etwas schwungvoller! Josie am Klavier und Finn singt. Schnappt euch die Noten und singt mit!</p>
+            
+            <audio controls src="musik/tag3.mp3"></audio>
+            <br>
+            <a href="noten/tag3.pdf" target="_blank" class="pdf-link">📄 Liedblatt öffnen (PDF)</a>
+        </div>
+
     </div>
+
 </body>
 </html>
