@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adventskalender 2026</title>
     <style>
-        /* Hintergrund und allgemeine Schrift */
         body {
             background-color: #722F37; /* Bordeauxrot */
-            background-image: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15)); /* Leicht ausgeblichener Effekt */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15)); /* Leicht ausgeblichen */
             color: #ffffff;
             font-family: 'Times New Roman', Times, serif;
             margin: 0;
@@ -16,7 +15,6 @@
             text-align: center;
         }
 
-        /* Überschriften */
         h1 {
             font-size: 3rem;
             margin-bottom: 5px;
@@ -31,18 +29,16 @@
             opacity: 0.9;
         }
 
-        /* Container für die Türchen */
         .calendar-container {
             max-width: 600px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 30px; /* Abstand zwischen den Türchen */
+            gap: 30px;
         }
 
-        /* Einzelnes Türchen */
         .door {
-            background: rgba(255, 255, 255, 0.1); /* Leicht transparenter Kasten */
+            background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 8px;
             padding: 25px;
@@ -63,14 +59,12 @@
             margin-bottom: 20px;
         }
 
-        /* Musik-Player */
         audio {
             width: 100%;
             max-width: 400px;
             margin-bottom: 20px;
         }
 
-        /* PDF-Download-Button */
         .pdf-link {
             display: inline-block;
             color: #722F37;
@@ -79,7 +73,7 @@
             padding: 10px 20px;
             border-radius: 4px;
             font-weight: bold;
-            font-family: sans-serif; /* Macht den Button moderner lesbar */
+            font-family: sans-serif;
             font-size: 0.9rem;
             transition: background 0.2s;
         }
@@ -91,11 +85,9 @@
 </head>
 <body>
 
-    <!-- Kopfzeile -->
     <h1>Adventskalender 2026</h1>
     <div class="subtitle">von Josie & Finn</div>
 
-    <!-- Hier werden die Türchen nacheinander hochgeladen -->
     <div class="calendar-container">
 
         <!-- 1. DEZEMBER -->
@@ -103,35 +95,14 @@
             <h2>1. Dezember</h2>
             <p>Hallo und herzlich willkommen zu unserem musikalischen Adventskalender! Zum Start haben wir für euch ein schönes erstes Lied aufgenommen. Viel Spaß beim Anhören und Mitsingen!</p>
             
-            <!-- Exakter Name Ihrer Musikdatei im Ordner "musik" -->
-            <audio controls src="musik/musik_Bachlauf VCP Rhein Main.mp3">
+            <!-- Musikdatei im Ordner "musik" -->
+            <audio controls src="musik/tag1_bachlauf.mp3">
                 Ihr Browser unterstützt das Audio-Element nicht.
             </audio>
             
             <br>
-            <!-- Exakter Name Ihrer PDF-Datei im Ordner "noten" -->
-            <a href="noten/vom_harten_stein_der_berge_(bachlauf).pdf" target="_blank" class="pdf-link">📄 Liedblatt öffnen (PDF)</a>
-        </div>
-
-
-        <!-- TÜRCHEN 2 -->
-        <div class="door">
-            <h2>2. Dezember</h2>
-            <p>Hinter dem heutigen Türchen versteckt sich ein ruhiges, besinnliches Stück für die kalten Winterabende.</p>
-            
-            <audio controls src="musik/tag2.mp3"></audio>
-            <br>
-            <a href="noten/tag2.pdf" target="_blank" class="pdf-link">📄 Liedblatt öffnen (PDF)</a>
-        </div>
-
-        <!-- TÜRCHEN 3 (Ein weiteres Beispiel) -->
-        <div class="door">
-            <h2>3. Dezember</h2>
-            <p>Heute wird es etwas schwungvoller! Josie am Klavier und Finn singt. Schnappt euch die Noten und singt mit!</p>
-            
-            <audio controls src="musik/tag3.mp3"></audio>
-            <br>
-            <a href="noten/tag3.pdf" target="_blank" class="pdf-link">📄 Liedblatt öffnen (PDF)</a>
+            <!-- PDF-Datei im Ordner "noten" -->
+            <a href="noten/tag1_bachlauf.pdf" target="_blank" class="pdf-link">📄 Liedblatt öffnen (PDF)</a>
         </div>
 
     </div>
