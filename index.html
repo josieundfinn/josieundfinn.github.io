@@ -156,37 +156,38 @@
 
     <script>
         // =====================================================================
-        // HIER TRÄGST DU NUR NOCH DEN LIEDTITEL UND DEN TEXT EIN!
-        // Die Dateien müssen in den Ordnern genauso heißen wie der Liedtitel:
-        //   - bilder/LIEDTITEL.jpeg (oder .jpg)
-        //   - musik/LIEDTITEL.mp3
-        //   - Notenblätter/LIEDTITEL.pdf
+        // HIER TRÄGST DU DIE ÜBERSCHRIFT, DEN DATEINAMEN UND DEN TEXT EIN:
+        //   - ueberschrift: Schöne Überschrift im Türchen (z.B. "Die Stille hütet")
+        //   - dateiname:    Exakter Name der Dateien ohne Endung (z.B. "DieStilleHütet")
+        //                   -> bilder/DATEINAME.jpeg (oder .jpg)
+        //                   -> musik/DATEINAME.mp3
+        //                   -> Notenblätter/DATEINAME.pdf
         // =====================================================================
         const tuerchenDaten = [
-            { tag: 1,  liedtitel: "DieStilleHütet", text: "Leon und ich waren im März diesen Jahres auf Fahrt in Rumänien. Wir sind mit dem Zug über Wien nach Siebenbürgen gefahren und sind dort Teile des Via Transylvanica gelaufen. Eine Reise durch geschichtsträchtige Ortschaften mit alten Burgen und befestigten Kirchen. Gegen Ende unserer Wanderung kamen wir nach Kreisch, wo wir in der Kreischer Kirchenburg den Burgkastellan Laszlo kennenlernten. Laszlo hat uns durch die Burg geführt und uns abends auf einen geschenkten Schnaps vom Bürgermeister eingeladen. Wir konnte direkt hinter der Burgmauer im Garten der Burganlage übernachten. Am Morgen, an dem wir uns absurd viel Zeit zum AUfbrechen nahmen, haben Leon und ich uns gegenübergesessen. Er schrieb ins Fahrtentagebuch und ich zupfte auf der Gitarre. Große Teile des Textes zu dem Lied und auch die Melodie sind dort entstanden. Erst nach dem Zurückkommen nach Hause habe ich dann die Ideen festgehalten und zu einem Lied zusammenschnürrt. Leon und ich haben das Lied bisher nicht gemeinsam gesungen, da er nach Norwegen zum Master gegangen ist. Trotzdem habe ich unsere Stimmen gemeinsam im Ohr und den Blick auf die Burg und den tagebuchschreibenden Leon im Kopf wenn ich das Lied höre." },
-            { tag: 2,  liedtitel: "", text: "" },
-            { tag: 3,  liedtitel: "", text: "" },
-            { tag: 4,  liedtitel: "", text: "" },
-            { tag: 5,  liedtitel: "", text: "" },
-            { tag: 6,  liedtitel: "", text: "" },
-            { tag: 7,  liedtitel: "", text: "" },
-            { tag: 8,  liedtitel: "", text: "" },
-            { tag: 9,  liedtitel: "", text: "" },
-            { tag: 10, liedtitel: "", text: "" },
-            { tag: 11, liedtitel: "", text: "" },
-            { tag: 12, liedtitel: "", text: "" },
-            { tag: 13, liedtitel: "", text: "" },
-            { tag: 14, liedtitel: "", text: "" },
-            { tag: 15, liedtitel: "", text: "" },
-            { tag: 16, liedtitel: "", text: "" },
-            { tag: 17, liedtitel: "", text: "" },
-            { tag: 18, liedtitel: "", text: "" },
-            { tag: 19, liedtitel: "", text: "" },
-            { tag: 20, liedtitel: "", text: "" },
-            { tag: 21, liedtitel: "", text: "" },
-            { tag: 22, liedtitel: "", text: "" },
-            { tag: 23, liedtitel: "", text: "" },
-            { tag: 24, liedtitel: "", text: "" }
+            { tag: 1,  ueberschrift: "", dateiname: "", text: "" },
+            { tag: 2,  ueberschrift: "", dateiname: "", text: "" },
+            { tag: 3,  ueberschrift: "", dateiname: "", text: "" },
+            { tag: 4,  ueberschrift: "", dateiname: "", text: "" },
+            { tag: 5,  ueberschrift: "", dateiname: "", text: "" },
+            { tag: 6,  ueberschrift: "", dateiname: "", text: "" },
+            { tag: 7,  ueberschrift: "", dateiname: "", text: "" },
+            { tag: 8,  ueberschrift: "", dateiname: "", text: "" },
+            { tag: 9,  ueberschrift: "", dateiname: "", text: "" },
+            { tag: 10, ueberschrift: "", dateiname: "", text: "" },
+            { tag: 11, ueberschrift: "", dateiname: "", text: "" },
+            { tag: 12, ueberschrift: "", dateiname: "", text: "" },
+            { tag: 13, ueberschrift: "", dateiname: "", text: "" },
+            { tag: 14, ueberschrift: "", dateiname: "", text: "" },
+            { tag: 15, ueberschrift: "", dateiname: "", text: "" },
+            { tag: 16, ueberschrift: "", dateiname: "", text: "" },
+            { tag: 17, ueberschrift: "", dateiname: "", text: "" },
+            { tag: 18, ueberschrift: "", dateiname: "", text: "" },
+            { tag: 19, ueberschrift: "", dateiname: "", text: "" },
+            { tag: 20, ueberschrift: "", dateiname: "", text: "" },
+            { tag: 21, ueberschrift: "", dateiname: "", text: "" },
+            { tag: 22, ueberschrift: "", dateiname: "", text: "" },
+            { tag: 23, ueberschrift: "", dateiname: "", text: "" },
+            { tag: 24, ueberschrift: "", dateiname: "", text: "" }
         ];
 
         // =====================================================================
@@ -194,10 +195,10 @@
         // =====================================================================
         const calendarContainer = document.getElementById('calendar');
 
-        function handleImageError(imgElement, encodedTitel) {
+        function handleImageError(imgElement, encodedDatei) {
             if (!imgElement.dataset.triedJpg) {
                 imgElement.dataset.triedJpg = 'true';
-                imgElement.src = `bilder/${encodedTitel}.jpg`;
+                imgElement.src = `bilder/${encodedDatei}.jpg`;
             } else {
                 imgElement.style.display = 'none';
             }
@@ -207,40 +208,39 @@
             const doorDiv = document.createElement('div');
             doorDiv.className = 'door';
 
-            const titel = eintrag.liedtitel.trim();
-            const hatInhalt = Boolean(titel || eintrag.text.trim());
+            const datei = (eintrag.dateiname || '').trim();
+            const ueberschrift = (eintrag.ueberschrift || '').trim() || datei;
+            const text = (eintrag.text || '').trim();
+            const hatInhalt = Boolean(ueberschrift || datei || text);
 
             let inhaltHTML = '';
 
             if (!hatInhalt) {
                 inhaltHTML = `<p class="empty-message">Dieses Türchen ist noch nicht befüllt. Schau am ${eintrag.tag}. Dezember wieder vorbei! 🎄</p>`;
             } else {
-                if (titel) {
-                    const encodedTitel = encodeURIComponent(titel);
+                if (ueberschrift) {
+                    inhaltHTML += `<div class="door-title">${ueberschrift}</div>`;
+                }
+
+                if (datei) {
+                    const encodedDatei = encodeURIComponent(datei);
                     inhaltHTML += `
-                        <div class="door-title">${titel}</div>
                         <img
-                            src="bilder/${encodedTitel}.jpeg"
-                            alt="Bild zum Lied ${titel}"
+                            src="bilder/${encodedDatei}.jpeg"
+                            alt="Bild zum Lied ${ueberschrift}"
                             class="door-img"
                             loading="lazy"
-                            onerror="handleImageError(this, '${encodedTitel}')"
+                            onerror="handleImageError(this, '${encodedDatei}')"
                         >
-                    `;
-                }
-
-                if (eintrag.text.trim()) {
-                    inhaltHTML += `<p>${eintrag.text}</p>`;
-                }
-
-                if (titel) {
-                    const encodedTitel = encodeURIComponent(titel);
-                    inhaltHTML += `
-                        <audio controls preload="none" src="musik/${encodedTitel}.mp3">
+                        <audio controls preload="none" src="musik/${encodedDatei}.mp3">
                             Ihr Browser unterstützt das Audio-Element nicht.
                         </audio><br>
-                        <a href="Notenblätter/${encodedTitel}.pdf" target="_blank" class="pdf-link">📄 Liedblatt öffnen (PDF)</a>
+                        <a href="Notenblätter/${encodedDatei}.pdf" target="_blank" class="pdf-link">📄 Liedblatt öffnen (PDF)</a>
                     `;
+                }
+
+                if (text) {
+                    inhaltHTML += `<p>${text}</p>`;
                 }
             }
 
