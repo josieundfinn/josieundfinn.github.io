@@ -8,7 +8,7 @@
     <style>
         body {
             background-color: #722F37; /* Bordeauxrot */
-            background-image: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15)); /* Leicht ausgeblichen */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15));
             color: #ffffff;
             font-family: 'Times New Roman', Times, serif;
             margin: 0;
@@ -35,39 +35,95 @@
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 15px;
         }
 
+        /* Türchen-Box */
         .door {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 8px;
-            padding: 25px;
+            overflow: hidden;
+            transition: background 0.2s;
+        }
+
+        /* Anklickbare Überschrift (Dropdown-Button) */
+        .door-header {
+            width: 100%;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.6rem;
+            padding: 18px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+            transition: background 0.2s;
+        }
+
+        .door-header:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .door-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .door.open .door-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Aufklappbarer Inhalt */
+        .door-content {
+            display: none;
+            padding: 0 25px 25px 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
             text-align: center;
         }
 
-        .door h2 {
-            font-size: 1.8rem;
-            margin-top: 0;
-            margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding-bottom: 5px;
+        .door.open .door-content {
+            display: block;
+            animation: fadeIn 0.3s ease;
         }
 
-        /* Stil für das Adventskalender-Bild */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .door-title {
+            font-size: 1.4rem;
+            font-style: italic;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            color: #f5e6e8;
+        }
+
         .door-img {
             width: 100%;
-            max-width: 400px; /* Begrenzt die Breite */
-            height: auto; /* Behält das richtige Seitenverhältnis bei */
+            max-width: 400px;
+            height: auto;
             border-radius: 6px;
+            margin-top: 15px;
             margin-bottom: 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
         .door p {
             font-size: 1.1rem;
-            line-height: 1.4;
+            line-height: 1.5;
             margin-bottom: 20px;
+        }
+
+        .empty-message {
+            font-style: italic;
+            opacity: 0.8;
+            padding-top: 15px;
+            margin-bottom: 0 !important;
         }
 
         audio {
@@ -99,30 +155,113 @@
     <h1>Adventskalender 2026</h1>
     <div class="subtitle">von Josie & Finn</div>
 
-    <div class="calendar-container">
+    <!-- Hier werden die 24 Türchen automatisch eingefügt -->
+    <div class="calendar-container" id="calendar"></div>
 
-        <!-- 1. DEZEMBER -->
-        <div class="door">
-            <h2>1. Dezember</h2>
-            
-            <!-- Bild aus dem Ordner "bilder" -->
-            <img src="bilder/tag1_bachlauf.jpg" alt="Weihnachtliches Motiv" class="door-img">
+    <script>
+        // =====================================================================
+        // HIER TRÄGST DU DIE DATEINAMEN UND TEXTE FÜR DIE EINZELNEN TAGE EIN
+        // Wichtig: Die Ordnernamen (bilder/, musik/, Notenblätter/) sind schon 
+        // hinterlegt – du musst hier nur noch den reinen Dateinamen eintragen!
+        // =====================================================================
+        const tuerchenDaten = [
+            {
+                tag: 1,
+                liedtitel: "",       // Optional: Name des Liedes als kleine Überschrift im Türchen
+                bild: "",            // z.B. "bachlauf.jpg"
+                text: "",            // Eure Geschichte zum Lied
+                musik: "",           // z.B. "bachlauf.mp3"
+                notenblatt: ""       // z.B. "bachlauf.pdf"
+            },
+            { tag: 2,  liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 3,  liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 4,  liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 5,  liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 6,  liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 7,  liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 8,  liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 9,  liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 10, liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 11, liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 12, liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 13, liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 14, liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 15, liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 16, liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 17, liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 18, liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 19, liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 20, liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 21, liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 22, liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 23, liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" },
+            { tag: 24, liedtitel: "", bild: "", text: "", musik: "", notenblatt: "" }
+        ];
 
-            <p>Das erste Türchen unseres Adventskalenders beinhaltet das Lied Bachlauf. Das Lied ist kurz vor dem Beräunertreffen 2026 entstanden. Der Text für das Lied war schon etwas länger fertig und hatte nur leider keine Melodie.
-            Als wir dann beschlossen bei dem Beräuner auftreten zu wollen, kam die Idee auf eine Melodie gemeinsam in der Gruppe zu entwickeln. Die Melodie ist dann im Hofheimer Turm nach viel Hin und Her entstanden und wir konnten das Lied
-            in großer Besetzung mit dem Singekreis VCP Rhein-Main auf dem Beräuner aufführen. Die Liedaufnahme ist vom Beräunertreffen 2026. Vielen Dank für die Aufnahme!</p>
-            
-            <!-- Musikdatei aus dem Ordner "musik" -->
-            <audio controls src="musik/tag1_bachlauf.mp3">
-                Ihr Browser unterstützt das Audio-Element nicht.
-            </audio>
-            
-            <br>
-            <!-- PDF-Datei aus dem Ordner "Notenblätter" -->
-            <a href="Notenblätter/tag1_bachlauf.pdf" target="_blank" class="pdf-link">📄 Liedblatt öffnen (PDF)</a>
-        </div>
+        // =====================================================================
+        // AB HIER NICHTS MEHR ÄNDERN (Baut die Türchen automatisch zusammen)
+        // =====================================================================
+        const calendarContainer = document.getElementById('calendar');
 
-    </div>
+        tuerchenDaten.forEach(eintrag => {
+            const doorDiv = document.createElement('div');
+            doorDiv.className = 'door';
+
+            // Prüfen, ob das Türchen überhaupt schon befüllt wurde
+            const istGefuellt = eintrag.liedtitel || eintrag.bild || eintrag.text || eintrag.musik || eintrag.notenblatt;
+
+            let inhaltHTML = '';
+
+            if (!istGefuellt) {
+                inhaltHTML = `<p class="empty-message">Dieses Türchen ist noch nicht befüllt. Schau am ${eintrag.tag}. Dezember wieder vorbei! 🎄</p>`;
+            } else {
+                if (eintrag.liedtitel) {
+                    inhaltHTML += `<div class="door-title">${eintrag.liedtitel}</div>`;
+                }
+                if (eintrag.bild) {
+                    inhaltHTML += `<img src="bilder/${eintrag.bild}" alt="Bild zum ${eintrag.tag}. Dezember" class="door-img" loading="lazy">`;
+                }
+                if (eintrag.text) {
+                    inhaltHTML += `<p>${eintrag.text}</p>`;
+                }
+                if (eintrag.musik) {
+                    inhaltHTML += `
+                        <audio controls preload="none" src="musik/${eintrag.musik}">
+                            Ihr Browser unterstützt das Audio-Element nicht.
+                        </audio><br>
+                    `;
+                }
+                if (eintrag.notenblatt) {
+                    inhaltHTML += `<a href="Notenblätter/${eintrag.notenblatt}" target="_blank" class="pdf-link">📄 Liedblatt öffnen (PDF)</a>`;
+                }
+            }
+
+            doorDiv.innerHTML = `
+                <button class="door-header" type="button">
+                    <span>${eintrag.tag}. Dezember</span>
+                    <span class="door-icon">▼</span>
+                </button>
+                <div class="door-content">
+                    ${inhaltHTML}
+                </div>
+            `;
+
+            // Klick-Event zum Auf- und Zuklappen
+            const headerBtn = doorDiv.querySelector('.door-header');
+            headerBtn.addEventListener('click', () => {
+                const warOffen = doorDiv.classList.contains('open');
+                doorDiv.classList.toggle('open');
+
+                // Falls ein Audio-Player im Türchen läuft, beim Zuklappen pausieren
+                if (warOffen) {
+                    const audio = doorDiv.querySelector('audio');
+                    if (audio) audio.pause();
+                }
+            });
+
+            calendarContainer.appendChild(doorDiv);
+        });
+    </script>
 
 </body>
 </html>
