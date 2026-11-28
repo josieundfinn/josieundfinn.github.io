@@ -7,27 +7,41 @@
     <title>Adventskalender 2026</title>
     <style>
         body {
-            background-color: #722F37; /* Bordeauxrot */
-            background-image: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15));
-            color: #ffffff;
+            background-color: #6b2730;
+            background-image:
+                radial-gradient(circle at 50% 0%, rgba(255, 224, 178, 0.16), transparent 65%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.18));
+            color: #fbf7f5;
             font-family: 'Times New Roman', Times, serif;
             margin: 0;
-            padding: 40px 20px;
+            padding: 48px 20px 70px;
             text-align: center;
         }
 
         h1 {
-            font-size: 3rem;
-            margin-bottom: 5px;
+            font-size: 3.1rem;
+            margin-bottom: 6px;
             font-weight: normal;
+            letter-spacing: 0.03em;
         }
 
         .subtitle {
-            font-size: 1.5rem;
+            font-size: 1.45rem;
             font-style: italic;
             margin-top: 0;
-            margin-bottom: 50px;
-            opacity: 0.9;
+            margin-bottom: 44px;
+            color: #ebd2a5;
+        }
+
+        /* Feines Symbol unter dem Untertitel als ruhiger Abschluss */
+        .subtitle::after {
+            content: "✦";
+            display: block;
+            font-style: normal;
+            font-size: 0.95rem;
+            letter-spacing: 0;
+            margin-top: 14px;
+            opacity: 0.75;
         }
 
         .calendar-container {
@@ -39,23 +53,34 @@
         }
 
         .door {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
+            background: rgba(255, 250, 245, 0.07);
+            border: 1px solid rgba(235, 210, 165, 0.28);
+            border-radius: 6px;
             overflow: hidden;
-            transition: background 0.2s;
+            transition: background 0.25s ease, border-color 0.25s ease;
+        }
+
+        .door:hover {
+            border-color: rgba(235, 210, 165, 0.48);
         }
 
         .door.locked {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.18);
+            background: rgba(255, 250, 245, 0.04);
+            border-color: rgba(235, 210, 165, 0.16);
+        }
+
+        /* Dezenter Schein für das Türchen des heutigen Tags im Dezember 2026 */
+        .door.today {
+            background: rgba(255, 244, 224, 0.12);
+            border-color: rgba(235, 210, 165, 0.65);
+            box-shadow: 0 0 20px rgba(235, 210, 165, 0.12);
         }
 
         .door-header {
             width: 100%;
             background: none;
             border: none;
-            color: #ffffff;
+            color: #fbf7f5;
             font-family: 'Times New Roman', Times, serif;
             font-size: 1.6rem;
             padding: 18px 25px;
@@ -86,8 +111,8 @@
 
         .door-content {
             display: none;
-            padding: 0 25px 25px 25px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0 26px 26px 26px;
+            border-top: 1px solid rgba(235, 210, 165, 0.22);
             text-align: center;
         }
 
@@ -127,9 +152,10 @@
         }
 
         .door p {
-            font-size: 1.1rem;
-            line-height: 1.5;
+            font-size: 1.12rem;
+            line-height: 1.65;
             margin-bottom: 20px;
+            text-align: left;
         }
 
         .empty-message, .locked-message {
@@ -137,6 +163,7 @@
             opacity: 0.85;
             padding-top: 15px;
             margin-bottom: 0 !important;
+            text-align: center !important;
         }
 
         audio {
@@ -147,8 +174,8 @@
 
         .pdf-link {
             display: inline-block;
-            color: #722F37;
-            background-color: #ffffff;
+            color: #6b2730;
+            background-color: #fbf7f5;
             text-decoration: none;
             padding: 10px 20px;
             border-radius: 4px;
@@ -159,7 +186,7 @@
         }
 
         .pdf-link:hover {
-            background-color: #e0e0e0;
+            background-color: #ebd2a5;
         }
     </style>
 </head>
@@ -185,7 +212,7 @@
             { tag: 2,  ueberschrift: "Der Löffel & Du", dateiname: "DerLöffel&Du", text: "Der Löffeltest... überall bekannt und allseits beliebt. Ziel des Tests ist es herauszufinden wer einen Löffel direkt griffbereit hat und wer nicht. Wer keinen Löffel vorzeigen kann muss eine peinliche oder lustige Bestrafung machen. Seit dieses Tests in meiner Sippenzeit und weil ein Löffel auch einfach immer praktisch ist, habe ich oft einen Löffel griffbereit. Gerade auf Fahrt oder auf Lagern. Meistens ist es ein Holzlöffel, nicht selbst geschnitzt, nicht besonders groß, nicht unbedingt schick und perfekt geformt. Aber er wohnt halt in der Zunfthose und ist deswegen immer mit dabei. Mit diesem Löffel, den Gedanken wofür er steht, warum ich ihn dabei habe, ihn ausleihe und mit der Lust mal etwas im Elemt of Crime Stil zu schreiben, ist dieses Lied im Herbst 2026 entstanden.    -finn " },
             { tag: 3,  ueberschrift: "Katzen auf Sofas", dateiname: "KatzenAufSofas", text: "" },
             { tag: 4,  ueberschrift: "Die Reise", dateiname: "DieReise", text: "" },
-            { tag: 5,  ueberschrift: "Frühlingsmelancholie", dateiname: "Frühlingsmelancholie", text: "" },
+            { tag: 5,  ueberschrift: "Frühlingsmelancholie", dateiname: "Frühlingsmelancholie", text: "" },
             { tag: 6,  ueberschrift: "Odessa bis Bukarest", dateiname: "OdessaBisBukarest", text: "" },
             { tag: 7,  ueberschrift: "Brokenheart", dateiname: "Brokenheart", text: "" },
             { tag: 8,  ueberschrift: "", dateiname: "", text: "" },
@@ -230,6 +257,15 @@
             return tag >= tagNummer;
         }
 
+        function istHeuteDezember2026(tagNummer) {
+            const jetzt = new Date();
+            return (
+                jetzt.getFullYear() === 2026 &&
+                jetzt.getMonth() === 11 &&
+                jetzt.getDate() === tagNummer
+            );
+        }
+
         function handleImageError(imgElement, encodedBasisName) {
             if (!imgElement.dataset.triedJpg) {
                 imgElement.dataset.triedJpg = 'true';
@@ -240,7 +276,6 @@
         }
 
         function baueBilderGalerieHTML(datei, ueberschrift) {
-            const encodedDatei = encodeURIComponent(datei);
             let bilderHTML = '<div class="door-gallery">';
 
             for (let nr = 1; nr <= MAX_BILDER_PRO_LIED; nr++) {
@@ -266,6 +301,10 @@
         tuerchenDaten.forEach(eintrag => {
             const doorDiv = document.createElement('div');
             doorDiv.className = 'door';
+
+            if (istHeuteDezember2026(eintrag.tag)) {
+                doorDiv.classList.add('today');
+            }
 
             const freigeschaltet = istTagFreigeschaltet(eintrag.tag);
             const datei = (eintrag.dateiname || '').trim();
