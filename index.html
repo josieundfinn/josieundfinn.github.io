@@ -46,6 +46,11 @@
             transition: background 0.2s;
         }
 
+        .door.locked {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+
         .door-header {
             width: 100%;
             background: none;
@@ -64,6 +69,10 @@
 
         .door-header:hover {
             background: rgba(255, 255, 255, 0.08);
+        }
+
+        .door.locked .door-header {
+            opacity: 0.75;
         }
 
         .door-icon {
@@ -116,9 +125,9 @@
             margin-bottom: 20px;
         }
 
-        .empty-message {
+        .empty-message, .locked-message {
             font-style: italic;
-            opacity: 0.8;
+            opacity: 0.85;
             padding-top: 15px;
             margin-bottom: 0 !important;
         }
@@ -162,9 +171,12 @@
         //                   -> bilder/DATEINAME.jpeg (oder .jpg)
         //                   -> musik/DATEINAME.mp3
         //                   -> Notenblätter/DATEINAME.pdf
+        //
+        // Hinweis: Du kannst jetzt schon alles eintragen! Durch die Datumssperre
+        // wird jedes Türchen erst ab dem jeweiligen Dezembertag 2026 geöffnet.
         // =====================================================================
         const tuerchenDaten = [
-            { tag: 1,  ueberschrift: "Die Stille hütet", dateiname: "DieStilleHütet", text: "Leon und ich waren im März diesen Jahres auf Fahrt in Rumänien. Wir sind mit dem Zug über Wien nach Siebenbürgen gefahren und sind dort Teile des Via Transylvanica gelaufen. Eine Reise durch geschichtsträchtige Ortschaften mit alten Burgen und befestigten Kirchen. Gegen Ende unserer Wanderung kamen wir nach Kreisch, wo wir in der Kreischer Kirchenburg den Burgkastellan Laszlo kennenlernten. Laszlo hat uns durch die Burg geführt und uns abends auf einen geschenkten Schnaps vom Bürgermeister eingeladen. Wir konnte direkt hinter der Burgmauer im Garten der Burganlage übernachten. Am Morgen, an dem wir uns absurd viel Zeit zum Aufbrechen nahmen, haben Leon und ich uns gegenübergesessen. Er schrieb ins Fahrtentagebuch und ich zupfte auf der Gitarre. Große Teile des Textes zu dem Lied und auch die Melodie sind dort entstanden. Erst nach dem Zurückkommen nach Hause habe ich dann die Ideen festgehalten und zu einem Lied zusammengeschnürrt. Leon und ich haben das Lied bisher nicht gemeinsam gesungen, da er nach Norwegen zum Master gegangen ist. Trotzdem habe ich unsere Stimmen gemeinsam im Ohr und den Blick auf die Burg und den tagebuchschreibenden Leon im Kopf wenn ich das Lied höre." },
+            { tag: 1,  ueberschrift: "", dateiname: "", text: "" },
             { tag: 2,  ueberschrift: "", dateiname: "", text: "" },
             { tag: 3,  ueberschrift: "", dateiname: "", text: "" },
             { tag: 4,  ueberschrift: "", dateiname: "", text: "" },
@@ -195,6 +207,27 @@
         // =====================================================================
         const calendarContainer = document.getElementById('calendar');
 
+        // Vorschau-Modus für euch, wenn die URL "?vorschau=1" enthält
+        const urlParams = new URLSearchParams(window.location.search);
+        const istVorschau = urlParams.get('vorschau') === '1';
+
+        function istTagFreigeschaltet(tagNummer) {
+            if (istVorschau) return true;
+
+            const jetzt = new Date();
+            const jahr = jetzt.getFullYear();
+            const monat = jetzt.getMonth(); // 0 = Januar ... 11 = Dezember
+            const tag = jetzt.getDate();
+
+            // Nach Dezember 2026 sind alle Türchen dauerhaft offen
+            if (jahr > 2026) return true;
+            // Vor Dezember 2026 ist noch kein Türchen offen
+            if (jahr < 2026 || monat < 11) return false;
+
+            // Im Dezember 2026 gilt: Tag 1 ab dem 1.12., Tag 2 ab dem 2.12. usw.
+            return tag >= tagNummer;
+        }
+
         function handleImageError(imgElement, encodedDatei) {
             if (!imgElement.dataset.triedJpg) {
                 imgElement.dataset.triedJpg = 'true';
@@ -208,6 +241,7 @@
             const doorDiv = document.createElement('div');
             doorDiv.className = 'door';
 
+            const freigeschaltet = istTagFreigeschaltet(eintrag.tag);
             const datei = (eintrag.dateiname || '').trim();
             const ueberschrift = (eintrag.ueberschrift || '').trim() || datei;
             const text = (eintrag.text || '').trim();
@@ -215,7 +249,10 @@
 
             let inhaltHTML = '';
 
-            if (!hatInhalt) {
+            if (!freigeschaltet) {
+                doorDiv.classList.add('locked');
+                inhaltHTML = `<p class="locked-message">Dieses Türchen öffnet sich erst am ${eintrag.tag}. Dezember 2026. 🕯️</p>`;
+            } else if (!hatInhalt) {
                 inhaltHTML = `<p class="empty-message">Dieses Türchen ist noch nicht befüllt. Schau am ${eintrag.tag}. Dezember wieder vorbei! 🎄</p>`;
             } else {
                 if (ueberschrift) {
@@ -244,10 +281,12 @@
                 }
             }
 
+            const statusSymbol = freigeschaltet ? '▼' : '🔒';
+
             doorDiv.innerHTML = `
                 <button class="door-header" type="button">
                     <span>${eintrag.tag}. Dezember</span>
-                    <span class="door-icon">▼</span>
+                    <span class="door-icon">${statusSymbol}</span>
                 </button>
                 <div class="door-content">
                     ${inhaltHTML}
