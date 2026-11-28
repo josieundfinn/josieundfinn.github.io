@@ -109,13 +109,20 @@
             color: #f5e6e8;
         }
 
+        .door-gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            margin-top: 15px;
+            margin-bottom: 18px;
+        }
+
         .door-img {
             width: 100%;
             max-width: 400px;
             height: auto;
             border-radius: 6px;
-            margin-top: 15px;
-            margin-bottom: 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
@@ -169,11 +176,9 @@
         //   - ueberschrift: Schöne Überschrift im Türchen (z.B. "Die Stille hütet")
         //   - dateiname:    Exakter Name der Dateien ohne Endung (z.B. "DieStilleHütet")
         //                   -> bilder/DATEINAME.jpeg (oder .jpg)
+        //                   -> weitere Bilder optional: DATEINAME_2.jpeg, DATEINAME_3.jpeg ...
         //                   -> musik/DATEINAME.mp3
         //                   -> Notenblätter/DATEINAME.pdf
-        //
-        // Hinweis: Du kannst jetzt schon alles eintragen! Durch die Datumssperre
-        // wird jedes Türchen erst ab dem jeweiligen Dezembertag 2026 geöffnet.
         // =====================================================================
         const tuerchenDaten = [
             { tag: 1,  ueberschrift: "", dateiname: "", text: "" },
@@ -205,9 +210,9 @@
         // =====================================================================
         // AB HIER NICHTS MEHR ÄNDERN
         // =====================================================================
+        const MAX_BILDER_PRO_LIED = 8; // Bei Bedarf einfach erhöhen (z.B. auf 12)
         const calendarContainer = document.getElementById('calendar');
 
-        // Vorschau-Modus für euch, wenn die URL "?vorschau=1" enthält
         const urlParams = new URLSearchParams(window.location.search);
         const istVorschau = urlParams.get('vorschau') === '1';
 
@@ -219,22 +224,43 @@
             const monat = jetzt.getMonth(); // 0 = Januar ... 11 = Dezember
             const tag = jetzt.getDate();
 
-            // Nach Dezember 2026 sind alle Türchen dauerhaft offen
             if (jahr > 2026) return true;
-            // Vor Dezember 2026 ist noch kein Türchen offen
             if (jahr < 2026 || monat < 11) return false;
 
-            // Im Dezember 2026 gilt: Tag 1 ab dem 1.12., Tag 2 ab dem 2.12. usw.
             return tag >= tagNummer;
         }
 
-        function handleImageError(imgElement, encodedDatei) {
+        function handleImageError(imgElement, encodedBasisName) {
             if (!imgElement.dataset.triedJpg) {
                 imgElement.dataset.triedJpg = 'true';
-                imgElement.src = `bilder/${encodedDatei}.jpg`;
+                imgElement.src = `bilder/${encodedBasisName}.jpg`;
             } else {
                 imgElement.style.display = 'none';
             }
+        }
+
+        function baueBilderGalerieHTML(datei, ueberschrift) {
+            const encodedDatei = encodeURIComponent(datei);
+            let bilderHTML = '<div class="door-gallery">';
+
+            for (let nr = 1; nr <= MAX_BILDER_PRO_LIED; nr++) {
+                const suffix = nr === 1 ? '' : `_${nr}`;
+                const basisName = `${datei}${suffix}`;
+                const encodedBasis = encodeURIComponent(basisName);
+
+                bilderHTML += `
+                    <img
+                        src="bilder/${encodedBasis}.jpeg"
+                        alt="Bild ${nr} zum Lied ${ueberschrift}"
+                        class="door-img"
+                        loading="lazy"
+                        onerror="handleImageError(this, '${encodedBasis}')"
+                    >
+                `;
+            }
+
+            bilderHTML += '</div>';
+            return bilderHTML;
         }
 
         tuerchenDaten.forEach(eintrag => {
@@ -261,14 +287,8 @@
 
                 if (datei) {
                     const encodedDatei = encodeURIComponent(datei);
+                    inhaltHTML += baueBilderGalerieHTML(datei, ueberschrift);
                     inhaltHTML += `
-                        <img
-                            src="bilder/${encodedDatei}.jpeg"
-                            alt="Bild zum Lied ${ueberschrift}"
-                            class="door-img"
-                            loading="lazy"
-                            onerror="handleImageError(this, '${encodedDatei}')"
-                        >
                         <audio controls preload="none" src="musik/${encodedDatei}.mp3">
                             Ihr Browser unterstützt das Audio-Element nicht.
                         </audio><br>
